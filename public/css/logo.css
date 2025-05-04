@@ -1,0 +1,41 @@
+.logo {
+    font-size: 25px;
+    font-weight: bold;
+    font-family: 'Product Sans', sans-serif;
+}
+
+.logo span {
+    display: inline-block;
+}
+
+.logo .g { color: #4285F4; }
+.logo .o1 { color: #EA4335; }
+.logo .o2 { color: #FBBC05; }
+.logo .g2 { color: #4285F4; }
+.logo .l { color: #34A853; }
+.logo .e { color: #EA4335; }
+.login-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.aCtive {
+    background-color: grey;
+}
+
+.skibidisigma {
+    padding-left: 5px;
+    padding-right: 5px;
+    border: 1px solid #8e0404;
+    height: 25px;
+    margin-left: 10px;
+}
+
+input[type="email"] {
+    padding-left: 5px;
+    padding-right: 5px;
+    border: 1px solid #8e0404;
+    height: 25px;
+    margin-left: 10px;
+}

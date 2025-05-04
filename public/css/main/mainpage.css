@@ -1,0 +1,219 @@
+@import url("https://fonts.googleapis.com/css2?family=Rubik:ital,wght@0,300..900;1,300..900&display=swap");
+
+html {
+  display: flex;
+  justify-content: center;
+  padding: 0;
+  margin: 0;
+
+  body {
+    overflow: hidden;
+    max-width: 100%;
+    width: 1400px;
+    height: 100%;
+    position: absolute;
+    font-family: "rubik";
+    display: flex;
+    padding: 0;
+    margin: 0;
+    justify-content: center;
+
+    main {
+      max-width: 100%;
+      width: 1400px;
+      display: flex;
+      flex-direction: column;
+
+      header {
+        height: 50px;
+        padding-left: 20px;
+        padding-right: 10px;
+        padding-bottom: 10px;
+        padding-top: 10px;
+        display: flex;
+        border-bottom: 1px #1e1e1e solid;
+        flex-direction: row-reverse;
+        align-items: center;
+
+        .loginbutton {
+          display: flex;
+          align-items: center;
+        }
+
+        a {
+          display: flex;
+          align-items: center;
+          text-decoration: none;
+          color: #1e1e1e;
+          margin-right: 20px;
+        }
+
+        a:hover {
+          text-decoration: none;
+          color: #3b3b3b;
+        }
+
+        .hamburger {
+          color: #8e0404;
+          width: 40px;
+          height: 40px;
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          cursor: pointer;
+        }
+
+        .hamburger:hover {
+          color: black;
+        }
+      }
+
+      .contents {
+        width: calc(100% - 20px);
+        height: 100%;
+        padding: 10px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+
+        p {
+          color: #04128e !important;
+          line-height: 80px;
+          padding-right: 7px;
+          font-size: 100px;
+          font-weight: lighter;
+          margin: 0;
+        }
+
+        h4 {
+          color: #04128e !important;
+          margin-top: 0;
+        }
+
+        .search {
+          max-width: 100%;
+          width: 742px;
+          display: flex;
+          height: 35px;
+
+          button {
+            border-top-right-radius: 5px;
+            border-bottom-right-radius: 5px;
+            border: none;
+            display: flex;
+            align-items: center;
+            color: white;
+            background-color: #8e0404;
+            cursor: pointer;
+          }
+
+          button:hover {
+            background-color: #ac0b0b;
+          }
+
+          input[type="text"] {
+            border-top-left-radius: 5px;
+            border-bottom-left-radius: 5px;
+            border: 1px solid #8e0404;
+            height: 100%;
+            width: 100%;
+            padding-left: 5px;
+          }
+
+          input[type="text"]:focus {
+            outline: none;
+          }
+        }
+
+        .tags {
+          max-width: 100%;
+          padding: 20px;
+          padding-top: 0;
+          margin-top: 20px;
+          display: flex;
+          flex-direction: column;
+
+          .tag {
+            display: flex;
+            flex-direction: column;
+          }
+
+          .tagform {
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+
+            .lefttag {
+              margin-top: 15px;
+              width: 100%;
+              height: calc(100% - 40px);
+              display: flex;
+              flex-direction: column;
+              align-items: center;
+
+              .date {
+                margin-left: 10px;
+              }
+            }
+
+            .righttag {
+              margin-top: 20px;
+              display: flex;
+              flex-wrap: wrap;
+              margin-bottom: 20px;
+              gap: 10px;
+              justify-content: center;
+              flex-direction: row;
+
+              .chkbx {
+                height: 45px;
+                width: calc(48% - 10px);
+                margin-bottom: 10px;
+                display: flex;
+                align-items: center;
+                cursor: pointer;
+                border: #8e0404 1px solid;
+                border-radius: 5px;
+                padding-left: 10px;
+
+                input[type="checkbox"] {
+                  margin-right: 10px;
+                  cursor: pointer;
+                  display: none;
+                }
+
+                label {
+                  color: #8e0404;
+                  cursor: pointer;
+                }
+              }
+            }
+          }
+        }
+      }
+
+      footer {
+        color: white;
+        width: 100%;
+        background-color: #1e1e1e !important;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+
+        a {
+          text-decoration: none;
+          color: white;
+        }
+
+        a:hover {
+          color: rgb(224, 224, 224);
+        }
+      }
+    }
+  }
+}
+
+.ahh {
+  height: 40px;
+}

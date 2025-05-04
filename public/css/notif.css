@@ -1,0 +1,140 @@
+.clol, .nb {
+    flex-direction: column;
+
+    .nb {
+        padding: 10px;
+    }
+
+    .nb:last-child {
+        margin-bottom: 40px;
+    }
+}
+
+.clol {
+    width: 100%;
+    padding-top: 20px;
+    gap: 40px;
+}
+
+.nh, .nb, .clol, .ch, .cf {
+    display: flex;
+}
+
+input[type="text"]:focus {
+    outline: none;
+  }
+
+.ch {
+    align-items: center;
+
+    .chp {
+        svg {
+            margin-right: 10px;
+        }
+    }
+
+    .chn {
+        font-weight: bold;
+        color: rgb(63, 63, 63);
+    }
+
+    .cht {
+        font-weight: lighter;
+        font-size: 0.8rem;
+        margin-left: 20px;
+        color: rgb(124, 124, 124);
+    }
+
+    .chd {
+        margin-left: auto;
+        position: relative;
+
+        .asd {
+            border-radius: 50%;
+        }
+
+        button {
+            background: none;
+            border: none;
+            padding: 0;
+            margin: 0;
+            font: inherit;
+            color: inherit;
+            text-align: inherit;
+            text-decoration: none;
+            cursor: pointer;
+            outline: none;
+            box-shadow: none;
+            appearance: none;
+            transition: 0.1s ease all;
+        }
+
+        .dropdown {
+            padding: 5px;
+            width: 140px;
+            position: absolute;
+            background-color: #eaecff;
+            margin-right: 10px;
+            right: 0;
+            clear:both;
+            border: 1px solid #6a6f9b;
+            border-radius: 5px;
+
+            form {
+                margin: 0;
+
+                button {
+                    width: 100%;
+                    margin-right: 10px;
+                    display: flex;
+                    align-items: center;
+                    justify-content: right;
+                    font-size: small;
+    
+                    svg {
+                        margin-right: 0;
+                        margin-left: 10px;
+                    }
+                }
+            }
+        }
+
+        .hidden {
+            display: none;
+        }
+    }
+
+    button:hover {
+        color: #04128e;
+        background-color: rgb(240, 240, 240);
+    }
+}
+
+.cb, .cf {
+    padding-left: 60px;
+}
+
+.cf {
+    margin-top: 14px;
+
+    .studytype {
+        display: flex;
+        gap: 5px;
+
+        .sc {
+            color: #8e0404ed;
+            border: 1px solid #8e0404ed;
+            padding: 2px;
+            border-radius: 5px;
+        }
+    }
+
+    .status {
+        margin-left: auto;
+        color: #04128e;
+        border: 1px solid #04128e;
+        padding: 2px;
+        border-radius: 5px;
+    }
+}
+
