@@ -83,31 +83,70 @@
                     </form>
                 </nav>
             </div>
- 
-            <div class="right" style="overflow: auto;">
-                @forelse($quizzes as $quiz)
-                    <div class="quiz-box">
-                        <h3>{{ $quiz->title }}</h3>
-                        <p>{{ $quiz->description }}</p>
 
-                        @if ($results->has($quiz->quiz_id))
-                            <div> <a href="student/result/{{ $quiz->quiz_id }}">View Score</a> </div>
-                        @else
-                            <form action="{{ url('student/start-quiz/' . $quiz->quiz_id) }}" method="POST">
-                                @csrf
-                                <input type="hidden" name="quiz_id" value="{{ $quiz->quiz_id }}">
-                                <button type="submit">
-                                    Answer now! ({{ $quiz->duration }} Minute{{ $quiz->duration > 1 ? 's' : '' }})
-                                </button>
-                            </form>
-                        @endif
-                    </div>
-                @empty
-                    <p>No ongoing quizzes available.</p>
-                @endforelse
+            <div class="right" style="overflow-x: auto; padding: 20px;">
+                <h2 style="font-size: 22px; margin-bottom: 20px;">Available Quizzes</h2>
+
+                @if($quizzes->isEmpty())
+                    <table style="width: 100%; border-collapse: collapse; font-size: 16px;">
+                        <thead style="background-color: #f0f0f0;">
+                            <tr>
+                                <th style="padding: 12px; text-align: left; border-bottom: 2px solid #ccc;">
+                                    No ongoing quizzes available.
+                                </th>
+                            </tr>
+                        </thead>
+                    </table>
+                @else
+                    <table style="width: 100%; border-collapse: collapse; font-size: 16px;">
+                        <thead style="background-color: #f0f0f0;">
+                            <tr>
+                                <th style="padding: 12px; text-align: left; border-bottom: 2px solid #ccc;">Title</th>
+                                <th style="padding: 12px; text-align: left; border-bottom: 2px solid #ccc;">Description</th>
+                                <th style="padding: 12px; text-align: left; border-bottom: 2px solid #ccc;">Duration</th>
+                                <th style="padding: 12px; text-align: left; border-bottom: 2px solid #ccc;">Action</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach($quizzes as $quiz)
+                                <tr style="border-bottom: 1px solid #eee;">
+                                    <td style="padding: 10px;">{{ $quiz->title }}</td>
+                                    <td style="padding: 10px;">{{ $quiz->description }}</td>
+                                    <td style="padding: 10px;">{{ $quiz->duration }} min</td>
+                                    <td style="padding: 10px;">
+                                        @if ($results->has($quiz->quiz_id))
+                                            <a href="{{ url('student/result/' . $quiz->quiz_id) }}" 
+                                            style="color: green; text-decoration: underline;">View Score</a>
+
+                                        @elseif (isset($activeSessions[$quiz->quiz_id]))
+                                            <a href="{{ url('student/quiz/' . $quiz->quiz_id) }}" 
+                                            style="color: orange; text-decoration: underline;">Continue</a>
+
+                                        @elseif (!in_array($quiz->quiz_id, $startedQuizIds))
+                                            <form action="{{ url('student/start-quiz/' . $quiz->quiz_id) }}" method="POST" style="display:inline;">
+                                                @csrf
+                                                <input type="hidden" name="quiz_id" value="{{ $quiz->quiz_id }}">
+                                                <button type="submit" style="
+                                                    background-color: #007bff;
+                                                    color: white;
+                                                    border: none;
+                                                    padding: 6px 14px;
+                                                    border-radius: 5px;
+                                                    cursor: pointer;">
+                                                    Start Quiz
+                                                </button>
+                                            </form>
+
+                                        @else
+                                            <span style="color: #999;">Session expired</span>
+                                        @endif
+                                    </td>
+                                </tr>
+                            @endforeach
+                        </tbody>
+                    </table>
+                @endif
             </div>
-
-
         </div>
 
         <footer>
@@ -116,55 +155,3 @@
 </body>
 </html>
 <script src="js/index.js"></script>
-<style>
-    .right {
-    padding: 2rem;
-    display: flex;
-    flex-wrap: wrap;
-    gap: 2rem;
-    justify-content: start;
-}
-
-.quiz-box {
-    background: #ffffff;
-    border-radius: 12px;
-    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
-    padding: 1.5rem;
-    width: 300px;
-    transition: transform 0.2s ease, box-shadow 0.2s ease;
-    border-left: 5px solid #8e0404;
-}
-
-.quiz-box:hover {
-    transform: scale(1.02);
-    box-shadow: 0 6px 18px rgba(0,0,0,0.15);
-}
-
-.quiz-box h3 {
-    font-size: 1.25rem;
-    font-weight: 600;
-    margin-bottom: 0.5rem;
-    color: #1F2937;
-}
-
-.quiz-box p {
-    font-size: 0.95rem;
-    color: #4B5563;
-    margin-bottom: 1rem;
-}
-
-.quiz-box button {
-    background-color: #4F46E5;
-    color: white;
-    padding: 0.5rem 1rem;
-    border-radius: 6px;
-    border: none;
-    cursor: pointer;
-    transition: background-color 0.2s ease;
-}
-
-.quiz-box button:hover {
-    background-color: #4338CA;
-}
-
-</style>

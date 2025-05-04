@@ -1,7 +1,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>DARA - Teacher Dashboard</title>
+    <title>QUIZZIN - Teacher Dashboard</title>
     <link rel="stylesheet" href="{{ asset ('css/std.css') }}">
     <link rel="stylesheet" href="{{ asset ('css/mainpage.css') }}">
     <link rel="stylesheet" href="{{ asset ('css/std_control.css') }}">

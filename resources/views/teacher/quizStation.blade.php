@@ -136,6 +136,24 @@
                 </div>
             </div>
 
+            <div class="asdmodal hidden" id="endModalContainer">
+                <div class="modal">
+                    <div class="modal-content">
+                        <h2>Revert Deployment</h2>
+                        <div class="modal-actions">
+                            <form action="{{ url('teacher/endquiz/' . $quiz->quiz_id) }}" method="POST">
+                                @csrf
+                                <p>Are you sure you want to end this quiz?</p>
+                                <div class="btnsz">
+                                    <button type="submit" class="batan confirm">Yes, end it</button>
+                                    <button type="button" class="batan cancel" onclick="closeModal('endModalContainer')">Cancel</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
             <div class="asdmodal hidden" id="editModalContainer">
                 <div class="modal">
                     <div class="modal-content">
@@ -204,37 +222,72 @@
                             <p>{{ $quiz->title }}</p>
                         </div>
                         <div class="frmc">
-                            <form action="addquestion/{{ $quiz->quiz_id }}" method="POST">
-                                @csrf
-                                <textarea name="question" placeholder="Question" required></textarea>
+                            @if ($quiz->status === 'Draft')
+                                <form action="addquestion/{{ $quiz->quiz_id }}" method="POST">
+                                    @csrf
+                                    <textarea name="question" placeholder="Question" required></textarea>
 
-                                <div class="lost">
-                                    <label for="option_a">A:</label>
-                                    <input type="text" name="option_a" placeholder="Option A" required>
-                                </div>
-                                <div class="lost">
-                                    <label for="option_b">B:</label>
-                                    <input type="text" name="option_b" placeholder="Option B" required>
-                                </div>
-                                <div class="lost">
-                                    <label for="option_c">C:</label>
-                                    <input type="text" name="option_c" placeholder="Option C" required>
-                                </div>
-                                <div class="lost">
-                                    <label for="option_d">D:</label>
-                                    <input type="text" name="option_d" placeholder="Option D" required>
-                                </div>
+                                    <div class="lost">
+                                        <label for="option_a">A:</label>
+                                        <input type="text" name="option_a" placeholder="Option A" required>
+                                    </div>
+                                    <div class="lost">
+                                        <label for="option_b">B:</label>
+                                        <input type="text" name="option_b" placeholder="Option B" required>
+                                    </div>
+                                    <div class="lost">
+                                        <label for="option_c">C:</label>
+                                        <input type="text" name="option_c" placeholder="Option C" required>
+                                    </div>
+                                    <div class="lost">
+                                        <label for="option_d">D:</label>
+                                        <input type="text" name="option_d" placeholder="Option D" required>
+                                    </div>
 
-                                <select name="answer" required>
-                                    <option value="">Select Answer</option>
-                                    <option value="option_a">A</option>
-                                    <option value="option_b">B</option>
-                                    <option value="option_c">C</option>
-                                    <option value="option_d">D</option>
-                                </select>
+                                    <select name="answer" required>
+                                        <option value="">Select Answer</option>
+                                        <option value="option_a">A</option>
+                                        <option value="option_b">B</option>
+                                        <option value="option_c">C</option>
+                                        <option value="option_d">D</option>
+                                    </select>
 
-                                <button type="submit">Add Question</button>
-                            </form>
+                                    <button type="submit">Add Question</button>
+                                </form>
+                            @else
+                                <form action="addquestion/{{ $quiz->quiz_id }}" method="POST">
+                                    @csrf
+                                    <textarea style="cursor: not-allowed;" name="question" placeholder="Question" disabled></textarea>
+
+                                    <div class="lost">
+                                        <label for="option_a">A:</label>
+                                        <input style="cursor: not-allowed;" type="text" name="option_a" placeholder="Option A" disabled>
+                                    </div>
+                                    <div class="lost">
+                                        <label for="option_b">B:</label>
+                                        <input style="cursor: not-allowed;" type="text" name="option_b" placeholder="Option B" disabled>
+                                    </div>
+                                    <div class="lost">
+                                        <label for="option_c">C:</label>
+                                        <input style="cursor: not-allowed;" type="text" name="option_c" placeholder="Option C" disabled>
+                                    </div>
+                                    <div class="lost">
+                                        <label for="option_d">D:</label>
+                                        <input style="cursor: not-allowed;" type="text" name="option_d" placeholder="Option D" disabled>
+                                    </div>
+
+                                    <select style="cursor: not-allowed;" name="answer" disabled>
+                                        <option value="">Select Answer</option>
+                                        <option value="option_a">A</option>
+                                        <option value="option_b">B</option>
+                                        <option value="option_c">C</option>
+                                        <option value="option_d">D</option>
+                                    </select>
+
+                                    <button style="cursor: not-allowed;" type="submit" disabled >Add Question</button>
+                                </form>
+                            @endif
+                            
 
                             @if (session('message'))
                                 <div class="alert alert-success">
@@ -252,11 +305,15 @@
                                 </div>
                             @endif
                             @if ($quiz->status === 'Ongoing')
+                                <button class="depl" onclick="endModal()" >
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-stop-circle"><circle cx="12" cy="12" r="10"/><rect x="9" y="9" width="6" height="6"/></svg>
+                                    End
+                                </button>
                                 <button class="depl" onclick="revertModal()" >
                                     <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-rotate-ccw"><polyline points="1 4 1 10 7 10"/><path d="M3.51 15a9 9 0 1 0 2.13-9.36L1 10"/></svg>
                                     Revert
                                 </button>
-                            @else
+                            @elseif ($quiz->status === 'Draft')
                                 <button class="depl" onclick="deployModal()" >
                                     <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-log-in"><path d="M15 3h4a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-4"/><polyline points="10 17 15 12 10 7"/><line x1="15" y1="12" x2="3" y2="12"/></svg>
                                     Deploy
@@ -282,18 +339,33 @@
                                         </li>
                                     </ul>
                                     <div class="ac">
-                                        <button onclick="editModal({{ $question->id }})">
-                                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1" stroke-linecap="round" stroke-linejoin="round" class="feather feather-edit">
-                                                <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/>
-                                                <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/>
-                                            </svg>
-                                        </button>
-                                        <button onclick="deleteModal({{ $question->id }})">
-                                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1" stroke-linecap="round" stroke-linejoin="round" class="feather feather-trash">
-                                                <polyline points="3 6 5 6 21 6"/>
-                                                <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/>
-                                            </svg>
-                                        </button>
+                                        @if ($quiz->status === 'Ongoing')
+                                            <button style="cursor: not-allowed;" onclick="editModal({{ $question->id }})" disabled>
+                                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1" stroke-linecap="round" stroke-linejoin="round" class="feather feather-edit">
+                                                    <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/>
+                                                    <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/>
+                                                </svg>
+                                            </button>
+                                            <button style="cursor: not-allowed;" onclick="deleteModal({{ $question->id }})" disabled>
+                                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1" stroke-linecap="round" stroke-linejoin="round" class="feather feather-trash">
+                                                    <polyline points="3 6 5 6 21 6"/>
+                                                    <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/>
+                                                </svg>
+                                            </button>
+                                        @elseif ($quiz->status === 'Draft')
+                                            <button onclick="editModal({{ $question->id }})">
+                                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1" stroke-linecap="round" stroke-linejoin="round" class="feather feather-edit">
+                                                    <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/>
+                                                    <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/>
+                                                </svg>
+                                            </button>
+                                            <button onclick="deleteModal({{ $question->id }})">
+                                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1" stroke-linecap="round" stroke-linejoin="round" class="feather feather-trash">
+                                                    <polyline points="3 6 5 6 21 6"/>
+                                                    <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/>
+                                                </svg>
+                                            </button>
+                                        @endif
                                         @if (session('edit') && session('edited_id') == $question->id)
                                             <div class="alert alert-success">
                                                 {{ session('edit') }}
@@ -319,6 +391,10 @@
 
         function revertModal() {
             document.getElementById('revertModalContainer').classList.remove('hidden');
+        }
+
+        function endModal() {
+            document.getElementById('endModalContainer').classList.remove('hidden');
         }
 
         function editModal(id) {

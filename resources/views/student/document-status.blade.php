@@ -1,7 +1,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>DARA - Student Dashboard</title>
+    <title> QUIZZIN - Student Dashboard</title>
     <link rel="stylesheet" href="{{ asset('css/std.css') }}">
     <link rel="stylesheet" href="{{ asset('css/mainpage.css') }}">
     <link rel="stylesheet" href="{{ asset('css/std_control.css') }}">
@@ -84,9 +84,49 @@
                 </nav>
             </div>
  
-            <div class="right" style="overflow: auto;">
+            <div class="right" style="overflow-x: auto; padding: 20px;">
+                <h2 style="font-size: 22px; margin-bottom: 20px;">Recently Answered Quizzes</h2>
 
+                @if($results->isEmpty())
+                    <p>You haven't answered any quizzes yet.</p>
+                @else
+                    <table style="width: 100%; border-collapse: collapse; font-size: 16px;">
+                        <thead style="background-color: #f0f0f0;">
+                            <tr>
+                                <th style="padding: 12px; text-align: left;">Title</th>
+                                <th style="padding: 12px;">Score</th>
+                                <th style="padding: 12px;">Remarks</th>
+                                <th style="padding: 12px;">Date Taken</th>
+                                <th style="padding: 12px;">Action</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach($results->sortByDesc('created_at') as $result)
+                                @php
+                                    $quiz = \App\Models\Quiz::find($result->quiz_id);
+                                @endphp
+                                <tr>
+                                    <td style="padding: 10px;">{{ $quiz->title }}</td>
+                                    <td style="padding: 10px; text-align: center;">{{ $result->score }} / {{ $result->total_items }}</td>
+                                    <td style="padding: 10px; text-align: center;">
+                                        <span style="color: {{ $result->remarks == 'Passed' ? 'green' : 'red' }};">
+                                            {{ $result->remarks }}
+                                        </span>
+                                    </td>
+                                    <td style="padding: 10px; text-align: center;">{{ \Carbon\Carbon::parse($result->created_at)->format('M d, Y h:i A') }}</td>
+                                    <td style="padding: 10px; text-align: center;">
+                                        <a href="{{ url('student/result/' . $result->quiz_id) }}" 
+                                        style="color: #007bff; text-decoration: underline; text-align: center;">
+                                            View Result
+                                        </a>
+                                    </td>
+                                </tr>
+                            @endforeach
+                        </tbody>
+                    </table>
+                @endif
             </div>
+
         </div>
 
         <footer>

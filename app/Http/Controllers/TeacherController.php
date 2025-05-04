@@ -16,7 +16,9 @@ class TeacherController extends Controller
     public function dashboard(){
         $id = Auth::id();
         $quizzes = Quiz::where('teacher', '=', $id)
-            ->get();  // Add ->get() to fetch the results
+            ->where('status', '!=', 'Ended')
+            ->get(); 
+
         return view('teacher.dashboard', [
             'quizzes' => $quizzes,
             'id'=> $id
@@ -24,8 +26,17 @@ class TeacherController extends Controller
     }
 
     public function review(){
-        $teacher_id = Auth::id(); // Get currently logged-in teacher ID
+        $teacher_id = Auth::id(); 
+
+
+        $id = Auth::id();
+        $quizzes = Quiz::where('teacher', '=', $id)
+            ->where('status', '!=', 'Draft')
+            ->get(); 
+
         return view('teacher.review-studies', [
+            'quizzes' => $quizzes,
+            'id'=> $id
         ]);
     }
 
@@ -195,6 +206,17 @@ class TeacherController extends Controller
         $quiz->delete();
     
         return redirect()->back()->with('success', 'Quiz deleted successfully!');
+    }
+
+    public function endquiz(Request $request, $id) {
+        $quiz = Quiz::findOrFail($id);
+        $quiz->status = 'Ended';
+        $quiz->save();
+
+        return redirect()->back()->with([
+            'deployed' => 'Quiz has ended',
+            'deployed_id' => $id
+        ]);
     }
     
 }

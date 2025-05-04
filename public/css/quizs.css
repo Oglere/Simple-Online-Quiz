@@ -107,13 +107,23 @@
         .depl {
             display: flex;
             align-items: center;
-            margin-left: auto;
             background-color: green;
             color: white;
             border: 1px solid green;
             padding: 10px;
             border-radius: 5px;
             cursor: pointer;
+        }
+
+        .depl:first-child {
+            margin-left: auto;
+            margin-right: 10px;
+            background-color: #8e0404;
+            border: #8e0404 1px solid;
+        }
+
+        .depl:first-child:hover {
+            color: #ac0b0b;
         }
 
         .depl:hover {

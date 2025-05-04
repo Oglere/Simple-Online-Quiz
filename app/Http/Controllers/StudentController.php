@@ -18,26 +18,46 @@ class StudentController extends Controller
 
     public function dashboard() {
         $studentId = auth()->user()->user_id;
-        $quizzes = Quiz::where('status', 'Ongoing')->get();
+        $now = now();
+        $sessions = QuizSession::where('student_id', $studentId)->get();
+        $startedQuizIds = [];
+        $activeSessions = [];
+        $answeredQuizIds = QuizSession::where('student_id', $studentId)
+            ->pluck('quiz_id')
+            ->toArray();
+    
+        foreach ($sessions as $session) {
+            $startedQuizIds[] = $session->quiz_id;
+    
+            if ($session->time_end > $now) {
+                $activeSessions[$session->quiz_id] = $session;
+            }
+        }
+
+        $quizzes = Quiz::where('status', 'Ongoing')
+            ->whereNotIn('quiz_id', $answeredQuizIds)
+            ->get();
+    
         $results = QuizResult::where('student_id', $studentId)->get()->keyBy('quiz_id');
+    
         return view('student.dashboard', [
             'quizzes' => $quizzes,
-            'results' => $results
+            'results' => $results,
+            'activeSessions' => $activeSessions,
+            'startedQuizIds' => $startedQuizIds,
         ]);
     }
-    
 
-    public function submission() {
-        $teacher = User::where('role', 'Teacher')->get(); // Fetch all teachers
-    
-        return view('student.document-submission', ['teacher' => $teacher]);
+    public function history(){
+        $studentId = auth()->user()->user_id;
+
+        $results = QuizResult::where('student_id', $studentId)
+            ->orderBy('created_at', 'desc')
+            ->get();
+
+        return view('student.document-status', compact('results'));
     }
 
-    public function status(){
-        $auth = Auth::id();
-
-        return view('student.document-status');
-    }
 
 
     public function edit() {
@@ -207,7 +227,7 @@ class StudentController extends Controller
             'answers' => json_encode($answers) // store as JSON
         ]);
     
-        return redirect()->route('student.dashboard')->with('status', 'Quiz submitted successfully!');
+        return redirect("student/result/$id");
     }
     
     public function results(Request $request, $id) {

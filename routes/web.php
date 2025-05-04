@@ -52,7 +52,7 @@ Route::prefix('admin')->middleware(['auth', 'admin'])->group(function () {
 
 Route::prefix('student')->middleware(['auth', 'student'])->group(function () {
     Route::get('/', [StudentController::class, 'dashboard'])->name('student.dashboard');
-    Route::get('/history', [StudentController::class, 'status']);
+    Route::get('/history', [StudentController::class, 'history']);
     Route::get('/edit', [StudentController::class, 'edit']);
     Route::get('/result/{id}', [StudentController::class, 'results']);
     Route::get('/quiz/{id}', [StudentController::class, 'viewQuiz'])->name('student.quiz.view');
@@ -72,6 +72,7 @@ Route::prefix('teacher')->middleware(['auth', 'teacher'])->group(function () {
     Route::get('/getquiz/{id}', [TeacherController::class, 'getquiz']);
 
     Route::post('/addquiz', [TeacherController::class, 'quizadd']);
+    Route::post('/endquiz/{id}', [TeacherController::class, 'endquiz']);
     Route::post('/quiz/addquestion/{id}', [TeacherController::class, 'question']);
     Route::post('/updatequestion/{id}', [TeacherController::class, 'upq']);
     Route::post('/quiz/deletequestion/{id}', [TeacherController::class, 'deleteQuestion']);

@@ -3,7 +3,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>DARA - Review Studies</title>
+    <title>QUIZZIN - Review Studies</title>
     <link rel="stylesheet" href="{{ asset ('css/std.css') }}">
     <link rel="stylesheet" href="{{ asset ('css/mainpage.css') }}">
     <link rel="stylesheet" href="{{ asset ('css/std_control.css') }}">
@@ -11,6 +11,7 @@
     <link rel="stylesheet" href="{{ asset ('css/notif.css')}}">
     <link rel="stylesheet" href="{{ asset ('css/usercontrol.css')}}">
     <link rel="stylesheet" href="{{ asset ('css/svg.css') }}">
+    <link rel="stylesheet" href="{{ asset ('css/addqz.css') }}">
 </head>
 <body style="height: calc(100%)">
     <main>
@@ -104,7 +105,39 @@
                 </nav>
             </div>
  
-            <div class="right" style="overflow-x: auto; height: 100%;"></div>
+            <div class="right" style="height: 100%; overflow: auto;">
+
+                <div class="dt">
+                    <h2>Quiz History</h2>
+                </div>
+                <div class="db">
+                    @if(session('success'))
+                        <div class="dbh">
+                            {{ session('success') }}
+                        </div>
+                    @endif
+                    <div class="dbtb">
+                        @forelse($quizzes as $quiz)
+                            <div class="row">
+                                <div class="rt">
+                                    <a style="margin-left: 34px" href="studentresult/{{ $quiz->quiz_id }}">View Results for {{ $quiz->title }}</a>
+                                </div>
+
+                                <div class="rd">
+                                    {{ $quiz->description }}
+                                </div>
+                                <div class="ac">
+                                </div>
+                            </div>
+                        @empty
+                            <div class="asd12">
+                                Empty
+                            </div>
+                        @endforelse
+                    </div>
+
+                </div>
+            </div>
             
         </div>
     </main>
